@@ -1,0 +1,9 @@
+<ul>
+	<% @data.each_with_index do |result, index| %>
+		<% break if index == 10 %>
+		<li><img src="<%= result['profile_image_url']%>"></li>
+		<li><%= result['from_user'] %></li>
+		<li><%= result['text'] %></li>
+		<li><%= Time.parse(result['created_at']).strftime("%b %e %Y at %I:%M%p") %></li>
+	<% end %>
+</ul>
