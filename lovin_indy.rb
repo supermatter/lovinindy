@@ -1,9 +1,13 @@
 class LovinIndy < Sinatra::Base
   include Twitter::Extractor
-
-  def twitter_search 
-    Twitter::Search.new
+  
+  helpers do
+    def twitter_search 
+      Twitter::Search.new
+    end
   end
+  
+  set :public, 'public'
 
   get '/' do
     @data = HTTParty.get("https://api.twitter.com/search.json?q=%23indy&page=1&rpp=20")['results']
