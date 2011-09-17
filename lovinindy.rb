@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'sinatra'
 require 'httparty'
-require 'embedly-ruby'
+require 'embedly-rb'
 require 'sinatra-cache'
 require 'twitter-text'
 
