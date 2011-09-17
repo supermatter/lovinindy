@@ -10,12 +10,14 @@ class LovinIndy < Sinatra::Base
   set :public, 'public'
 
   get '/' do
-    @data = HTTParty.get("https://api.twitter.com/search.json?q=%23indy&page=1&rpp=20")['results']
+    embedly_api = Embedly::API.new :key => 'a0254700e14811e08c704040d3dc5c07', :user_agent => 'Mozilla/5.0 (compatible; mytestapp/1.0; info@supermatter.com)'
+    @data = twitter_search.hashtag("indy").language("en").no_retweets.per_page(20)
     @data.each do |result|
-      url = URI.extract(result.to_s, ['http'])[0]
-      embedly_api = Embedly::API.new :key => 'a0254700e14811e08c704040d3dc5c07', :user_agent => 'Mozilla/5.0 (compatible; mytestapp/1.0; info@supermatter.com)'
-      obj = embedly_api.oembed :url => url
-      obj[0].type
+      url = URI.extract(result.text, ['http']).first
+      unless url.nil?
+        obj = embedly_api.oembed :url => url
+        obj[0].type
+      end
     end
     erb :index
   end
