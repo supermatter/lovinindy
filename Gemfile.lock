@@ -3,31 +3,40 @@ GEM
   specs:
     activesupport (3.1.0)
       multi_json (~> 1.0)
+    addressable (2.2.6)
     embedly (1.3.0)
       oauth
       querystring
       typhoeus
+    faraday (0.6.1)
+      addressable (~> 2.2.4)
+      multipart-post (~> 1.1.0)
+      rack (< 2, >= 1.1.0)
+    faraday_middleware (0.6.5)
+      faraday (~> 0.6.0)
+    hashie (1.0.0)
     httparty (0.8.0)
       multi_json
       multi_xml
     mime-types (1.16)
     multi_json (1.0.3)
-    multi_xml (0.4.0)
+    multi_xml (0.2.2)
+    multipart-post (1.1.3)
     oauth (0.4.5)
     querystring (0.1.0)
     rack (1.3.3)
-    rack-protection (1.1.0)
-      rack
-    sinatra (1.3.0.f)
-      rack (~> 1.3)
-      rack-protection (~> 1.1)
-      tilt (~> 1.3)
-    sinatra-cache (0.3.7)
-      sinatra (>= 1.1.0)
-      sinatra-outputbuffer (>= 0.1.0)
-    sinatra-outputbuffer (0.1.0)
-      sinatra (>= 1.0.a)
+    simple_oauth (0.1.5)
+    sinatra (1.2.6)
+      rack (~> 1.1)
+      tilt (< 2.0, >= 1.2.2)
     tilt (1.3.3)
+    twitter (1.6.0)
+      faraday (~> 0.6.1)
+      faraday_middleware (~> 0.6.3)
+      hashie (~> 1.0.0)
+      multi_json (~> 1.0.0)
+      multi_xml (~> 0.2.0)
+      simple_oauth (~> 0.1.5)
     twitter-text (1.4.9)
       activesupport
     typhoeus (0.2.4)
@@ -41,5 +50,5 @@ DEPENDENCIES
   embedly
   httparty
   sinatra
-  sinatra-cache
+  twitter (= 1.6.0)
   twitter-text
