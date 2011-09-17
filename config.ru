@@ -3,5 +3,5 @@ require 'bundler'
 
 Bundler.require
 
-require './lovinindy.rb'
+require './lovin_indy.rb'
 run LovinIndy
