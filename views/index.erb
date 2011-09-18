@@ -29,23 +29,23 @@
 			</div>
 			
 		</header>
-		<ul>
-			<% @data.each_with_index do |result, index| %>
-				<% break if index == 10 %>
-				<li><img src="<%= result['profile_image_url']%>"></li>
-				<li><%= result['from_user'] %></li>
-				<li><%= result['text'] %></li>
-				<li><%= Time.parse(result['created_at']).strftime("%b %e %Y at %I:%M%p") %></li>
-				<% unless result.embed_media_type.nil? %>
-					<li><%= result.embed_media_type%></li>
-					<li><img src="<%= result.embed_media_thumb%>"></li>
-	      	<li><%= result.embed_media_html%></li>
-	      	<li><%= result.embed_media_display%></li>
-				<%end%>
-			<% end %>
-		</ul>
+		<% @data.each do |result| %>
+			<div class="tweet">
+				<img src="<%= result['profile_image_url']%>">
+				<div class="body">
+					<%= result['text'] %>
+					<%= result['from_user'] %> | <%= Time.parse(result['created_at']).strftime("%b %e %Y at %I:%M%p") %>
+				</div>
+				<!--Data added from Embedly to result>
+				<%#= result.embed_media_type%>
+				<!--img src="<#%= result.embed_media_thumb%>"-->
+      	<%#= result.embed_media_html%>
+      	<%#= result.embed_media_display%>
+			</div>
+		<% end %>
+		
 		<footer>
-			made with love by Supermatter
+			made with love by <a href="http://supermatter.com/">Supermatter</a>
 		</footer>
 	</body>
 </html>
