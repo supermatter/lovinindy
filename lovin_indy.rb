@@ -16,7 +16,10 @@ class LovinIndy < Sinatra::Base
       url = URI.extract(result.text, ['http']).first
       unless url.nil?
         obj = embedly_api.oembed :url => url
-        obj[0].type
+        result.embed_media_type = obj[0].type
+        result.embed_media_thumb = obj[0].thumbnail_url
+        result.embed_media_html = obj[0].html
+        result.embed_media_provider = obj[0].provider_name
       end
     end
     erb :index
