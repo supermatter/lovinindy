@@ -1,5 +1,10 @@
 class LovinIndy < Sinatra::Base
   include Twitter::Extractor
+  set :cache, Dalli::Client.new
+  
+  #Use settings.cache.set('tweets', @tweets) to set write in memechaced
+  #settings.cache.get('tweets') to read the cached object
+  
   
   helpers do
     def twitter_search 
