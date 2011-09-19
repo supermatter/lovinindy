@@ -33,8 +33,8 @@
 			<div class="tweet">
 				<img src="<%= result['profile_image_url']%>">
 				<div class="body">
-					<%= result['text'] %>
-					<%= result['from_user'] %> | <%= Time.parse(result['created_at']).strftime("%b %e %Y at %I:%M%p") %>
+					<%= result.text %>
+					<%= result.from_user %> | <%= Time.parse(result.created_at).strftime("%b %e %Y at %I:%M%p") %>
 				</div>
 				<!--Data added from Embedly to result>
 				<%#= result.embed_media_type%>
