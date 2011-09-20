@@ -397,19 +397,43 @@ h1{
 	font-size: 1.75em;
 }
 
-.tweet{
+.item{
 	overflow: auto;
-	margin: 2em 0;
+	position: relative;
+	margin: 2em;
 }
 
-.tweet img{
-	float: left;
+.item .profile_img{
+	position: absolute;
+	top: 0;
+	left: 0;
 }
 
-.tweet .body{
-	background: #dedede;
+.item .body{
+	background: rgba(0,0,0,.4);
 	padding: 1em;
 	margin-left: 4em;
+	color: #fff;
+}
+
+.item .media img{
+	width: 100%;
+	margin: 0;
+}
+
+.item .user{
+	display: block;
+}
+
+.item .media{
+	margin-left: 4em;
+}
+
+.item .media + .body{
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
 }
 
 footer{
@@ -452,6 +476,15 @@ footer a{
 	.intro{
 		padding: 2em;
 		text-align: left;
+	}
+	
+	.item{
+		float: left;
+		width: 25em;
+	}
+	
+	footer{
+		clear: both;
 	}
 }
 
