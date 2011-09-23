@@ -17,6 +17,7 @@ class LovinIndy < Sinatra::Base
   get '/' do
     embedly_api = Embedly::API.new :key => 'a0254700e14811e08c704040d3dc5c07', :user_agent => 'Mozilla/5.0 (compatible; mytestapp/1.0; info@supermatter.com)'
     @data = twitter_search.hashtag("indy").language("en").no_retweets.per_page(20)
+    @mentions = twitter_search.mentioning("lovinindy").per_page(10)
     @data.each do |result|
       url = URI.extract(result.text, ['http']).first
       unless url.nil?
