@@ -1,3 +1,5 @@
+Bundler.require
+
 class LovinIndy < Sinatra::Base
   include Twitter::Extractor
   set :cache, Dalli::Client.new
@@ -37,4 +39,6 @@ class LovinIndy < Sinatra::Base
 
     #erb :index
   end
+  
+  run!
 end
