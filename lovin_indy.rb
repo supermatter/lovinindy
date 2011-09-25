@@ -3,6 +3,7 @@ Bundler.require
 class LovinIndy < Sinatra::Base
   include Twitter::Extractor
   set :cache, Dalli::Client.new
+  set :port, ARGV[1]
   
   #Use settings.cache.set('tweets', @tweets) to set write in memechaced
   #settings.cache.get('tweets') to read the cached object
