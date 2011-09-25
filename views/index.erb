@@ -29,6 +29,8 @@
 			</div>
 			
 		</header>
+		
+		<div id="items">
 		<% @data.each do |result| %>
 			<div class="<%=result.embedly.type || 'tweet' %> item">
 				<img src="<%= result.profile_image_url%>" class="profile_img">
@@ -47,9 +49,15 @@
       	<%#= result.embed_media_display%>
 			</div>
 		<% end %>
+		</div>
 		
 		<footer>
-			made with love by <a href="http://supermatter.com/">Supermatter</a>
+			made with &hearts; by <a href="http://tonydewan.com">Tony</a> and <a href="http://gabrieleroselli.com/">G</a> at <a href="http://supermatter.com/">Supermatter</a>
 		</footer>
+		
+		<script src="/javascripts/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+<!-- 		<script src="/javascripts/jquery.masonry.min.js" type="text/javascript" charset="utf-8"></script> -->
+		<script src="/javascripts/jquery.isotope.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/javascripts/application.js" type="text/javascript" charset="utf-8"></script>
 	</body>
 </html>
