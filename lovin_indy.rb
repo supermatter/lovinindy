@@ -15,9 +15,9 @@ class LovinIndy < Sinatra::Base
   set :public, 'public'
 
   get '/' do
-    if settings.cache.get('data').nil? || settings.cache.get('data')[:timestamp]+300 <= Time.now
+    if defined? settings.cache.get('data') && settings.cache.get('data').nil? || settings.cache.get('data')[:ttl]+300 <= Time.now
       embedly_api = Embedly::API.new :key => 'a0254700e14811e08c704040d3dc5c07', :user_agent => 'Mozilla/5.0 (compatible; mytestapp/1.0; info@supermatter.com)'
-      @data = twitter_search.hashtag("indy").language("en").no_retweets.per_page(20)
+      @data = Twitter::Search.new.hashtag("lovinindy").language("en").no_retweets.per_page(20)
     
       @data.each do |result|
         url = URI.extract(result.text, ['http']).first
@@ -26,7 +26,7 @@ class LovinIndy < Sinatra::Base
           result.embedly = obj[0]
         end
       end
-      settings.cache.set('data', {:data => @data, timestamp => Time.now})
+      settings.cache.set('data', {:data => @data, :ttl => Time.now})
     else
       @data = settings.cache.get('data')[:data]
     end
