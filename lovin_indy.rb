@@ -1,10 +1,7 @@
 class LovinIndy < Sinatra::Base
   include Twitter::Extractor
   set :cache, Dalli::Client.new
-  
-  #Use settings.cache.set('tweets', @tweets) to set write in memechaced
-  #settings.cache.get('tweets') to read the cached object
-  
+  set :enable_cache, true
   
   helpers do
     def twitter_search 
@@ -16,8 +13,14 @@ class LovinIndy < Sinatra::Base
 
   get '/' do
     embedly_api = Embedly::API.new :key => 'a0254700e14811e08c704040d3dc5c07', :user_agent => 'Mozilla/5.0 (compatible; mytestapp/1.0; info@supermatter.com)'
-    @data = twitter_search.hashtag("indy").language("en").no_retweets.per_page(20)
-    @mentions = twitter_search.mentioning("lovinindy").per_page(10)
+    if defined? time_stamp && time_stamp.nil? || time_stamp > Time.now + 300
+      @data = twitter_search.hashtag("indy").language("en").no_retweets.per_page(20)
+      time_stamp = Time.now
+      settings.cache.set('data', @data)
+    else
+      @data = settings.cache.get('data')
+    end
+    #@mentions = twitter_search.mentioning("lovinindy").per_page(10)
     @data.each do |result|
       url = URI.extract(result.text, ['http']).first
       unless url.nil?
