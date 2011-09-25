@@ -41,7 +41,7 @@
 				<% end %>
 				<div class="body">
 					<%= result.text %>
-					<div class="user"><%= result.from_user %> | <%= Time.parse(result.created_at).strftime("%b %e %Y at %I:%M%p") %></div>
+					<div class="user"><%= result.from_user %> | <%= Time.parse(result.created_at).getlocal.strftime("%b %e %Y at %I:%M%p") %></div>
 				</div>
 				<!--Data added from Embedly to result>
 				<!--img src="<#%= result.embed_media_thumb%>"-->
