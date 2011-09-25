@@ -32,7 +32,7 @@
 		<% @data.each do |result| %>
 			<div class="<%=result.embedly.type || 'tweet' %> item">
 				<img src="<%= result.profile_image_url%>" class="profile_img">
-				<% if !result.embed_media_thumb.nil? &&  result.embed_media_type != 'link' %>
+				<% if !result.embedly.thumbnail_url.nil? &&  result.embedly.type != 'link' %>
 					<div class="media">
 						<img src="<%= result.embedly.thumbnail_url%>">
 					</div>

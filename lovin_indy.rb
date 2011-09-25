@@ -1,8 +1,11 @@
+Bundler.require
+
 class LovinIndy < Sinatra::Base
   include Twitter::Extractor
   set :cache, Dalli::Client.new
   set :enable_cache, true
-  
+  set :port, ARGV[1]
+    
   helpers do
     def twitter_search 
       Twitter::Search.new
@@ -12,7 +15,7 @@ class LovinIndy < Sinatra::Base
   set :public, 'public'
 
   get '/' do
-    if settings.cache.get('page').nil? || settings.cache.get('page')[:timestamp]+300 =< Time.now
+    if settings.cache.get('data').nil? || settings.cache.get('data')[:timestamp]+300 <= Time.now
       embedly_api = Embedly::API.new :key => 'a0254700e14811e08c704040d3dc5c07', :user_agent => 'Mozilla/5.0 (compatible; mytestapp/1.0; info@supermatter.com)'
       @data = twitter_search.hashtag("indy").language("en").no_retweets.per_page(20)
     
@@ -23,11 +26,11 @@ class LovinIndy < Sinatra::Base
           result.embedly = obj[0]
         end
       end
-      erb :index
-      settings.cache.set('view', {:page => erb :index, timestamp => Time.now})
+      settings.cache.set('data', {:data => @data, timestamp => Time.now})
     else
-      settings.cache.get('page')[:page]
+      @data = settings.cache.get('data')[:data]
     end
+    erb :index
   end
 
   get '/search' do 
@@ -36,4 +39,6 @@ class LovinIndy < Sinatra::Base
 
     #erb :index
   end
+  
+  run!
 end
