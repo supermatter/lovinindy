@@ -1,36 +1,34 @@
-Bundler.require
+require File.join(File.dirname(__FILE__), 'tweet_store')
+require File.join(File.dirname(__FILE__), 'extract')
+
+DB = TweetStore.new
 
 class LovinIndy < Sinatra::Base
   include Twitter::Extractor
-  set :cache, Dalli::Client.new
-  set :enable_cache, true
-  set :port, ARGV[1]
+    
+  set :public, 'public'
+  #set :cache, Dalli::Client.new
+  #Use settings.cache.set('tweets', @tweets) to set write in memechaced
+  #settings.cache.get('tweets') to read the cached object
     
   helpers do
     def twitter_search 
       Twitter::Search.new
     end
+  
+    def fetch_data
+      @data = twitter_search.hashtag("indy").language("en").no_retweets.per_page(20)
+      @mentions = twitter_search.mentioning("lovinindy").per_page(10)
+      @data.each do |result|
+        Extract.oembed(result)
+      end
+    end
+
   end
   
-  set :public, 'public'
-
   get '/' do
-    if defined? settings.cache.get('data') && settings.cache.get('data').nil? || settings.cache.get('data')[:ttl]+300 <= Time.now
-      embedly_api = Embedly::API.new :key => 'a0254700e14811e08c704040d3dc5c07', :user_agent => 'Mozilla/5.0 (compatible; mytestapp/1.0; info@supermatter.com)'
-      @data = Twitter::Search.new.hashtag("lovinindy").language("en").no_retweets.per_page(20)
-    
-      @data.each do |result|
-        url = URI.extract(result.text, ['http']).first
-        unless url.nil?
-          obj = embedly_api.oembed :url => url
-          result.embedly = obj[0]
-        end
-      end
-      settings.cache.set('data', {:data => @data, :ttl => Time.now})
-    else
-      @data = settings.cache.get('data')[:data]
-    end
-    erb :index
+    @tweets = DB.tweets
+    erb :home
   end
 
   get '/search' do 
@@ -39,6 +37,25 @@ class LovinIndy < Sinatra::Base
 
     #erb :index
   end
-  
-  run!
+end
+
+# Twitter Stream
+TWITTER_USERNAME = "username"
+TWITTER_PASSWORD = "password"
+KEYS = ["soccer", "indy", "indianapolis"]
+
+FILTER_STREAM_URL = "https://stream.twitter.com/1/statuses/filter.json?track=#{KEYS.join(",")}"
+puts FILTER_STREAM_URL
+
+EM.schedule do
+  http = EM::HttpRequest.new(FILTER_STREAM_URL).get :head => { 'Authorization' => [ TWITTER_USERNAME, TWITTER_PASSWORD ] }
+  buffer = ""
+  http.stream do |chunk|
+    buffer += chunk
+    while line = buffer.slice!(/.+\r?\n/)
+      tweet = JSON.parse(line)
+      tweet = Extract.oembed(tweet)
+      DB.push(tweet) if tweet['text']
+    end
+  end
 end
