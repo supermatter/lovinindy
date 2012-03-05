@@ -31,30 +31,30 @@
 		</header>
 		
 		<div id="items">
-		<% @data.each do |result| %>
-			<div class="<%=result.embedly.type || 'tweet' %> item">
-				<img src="<%= result.profile_image_url%>" class="profile_img">
-				<% if !result.embedly.thumbnail_url.nil? &&  result.embedly.type != 'link' %>
-					<div class="media">
-						<img src="<%= result.embedly.thumbnail_url%>">
-					</div>
-				<% end %>
-				<div class="body">
-					<%= result.text %>
-					<div class="user"><%= result.from_user %> | <%= Time.parse(result.created_at).getlocal.strftime("%b %e %Y at %I:%M%p") %></div>
-				</div>
-				<!--Data added from Embedly to result>
-				<!--img src="<#%= result.embed_media_thumb%>"-->
-      	<%#= result.embed_media_html%>
-      	<%#= result.embed_media_display%>
-			</div>
-		<% end %>
+		<%# <% @data.each do |result| %>%>
+		<%#   <div class="<%=result.embedly.type || 'tweet' %> item">%>
+		<%#     <img src="<%= result.profile_image_url%>" class="profile_img">%>
+		<%#     <% if !result.embedly.thumbnail_url.nil? &&  result.embedly.type != 'link' %>%>
+		<%#       <div class="media">%>
+		<%#         <img src="<%= result.embedly.thumbnail_url%>">%>
+		<%#       </div>%>
+		<%#     <% end %>%>
+		<%#     <div class="body">%>
+		<%#       <%= result.text %>%>
+		<%#       <div class="user"><%= result.from_user %> | <%#= Time.parse(result.created_at).getlocal.strftime("%b %e %Y at %I:%M%p") %></div>%>
+		<%#     </div>%>
+		<%#     <!--Data added from Embedly to result>%>
+		<%#     [>img src="<#%= result.embed_media_thumb%>"<]%>
+    <%#     [>= result.embed_media_html<]%>
+    <%#     [>= result.embed_media_display<]%>
+		<%#   </div>%>
+		<%# <% end %>%>
 		</div>
 		
 		<footer>
 			made with &hearts; by <a href="http://tonydewan.com">Tony</a> and <a href="http://gabrieleroselli.com/">G</a> at <a href="http://supermatter.com/">Supermatter</a>
 		</footer>
-		
+		<%= @data %>
 		<script src="/javascripts/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 <!-- 		<script src="/javascripts/jquery.masonry.min.js" type="text/javascript" charset="utf-8"></script> -->
 		<script src="/javascripts/jquery.isotope.min.js" type="text/javascript" charset="utf-8"></script>
