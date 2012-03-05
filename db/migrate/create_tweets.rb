@@ -1,5 +1,5 @@
 class CreateTweets < ActiveRecord::Migration
-  def change
+  def self.up
     create_table :tweets do |t|
       t.string :name
 			t.date :created_at
@@ -13,4 +13,8 @@ class CreateTweets < ActiveRecord::Migration
       t.timestamps
     end
   end
+
+	def self.down
+		drop_table :tweets
+	end
 end
