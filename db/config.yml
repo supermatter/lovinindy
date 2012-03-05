@@ -1,6 +1,6 @@
 development:
-	adapter: mysql
-  encoding: utf8
-  database: lovinindy_development
-  username: root
-  password: r@dh0st
+ adapter: mysql
+ encoding: utf8
+ database: lovinindy_development
+ username: root
+ password: r@dh0st
