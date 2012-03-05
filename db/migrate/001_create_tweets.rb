@@ -1,7 +1,6 @@
 class CreateTweets < ActiveRecord::Migration
   def change
     create_table :tweets do |t|
-      t.string :name
 			t.date :created_at
 			t.string :from_user
 			t.integer :from_user_id

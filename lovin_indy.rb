@@ -2,20 +2,27 @@ Bundler.require
 
 class LovinIndy < Sinatra::Base
   include Twitter::Extractor
-  set :port, ARGV[1]
-    
-  helpers do
-    def twitter_search 
-      Twitter::Search.new
-    end
-  end
-  
+  require 'active_record'
+	set :port, ARGV[1]
+
+  configure do
+   Dir.glob(File.dirname(__FILE__) + '/models/*', &method(:require))
+	end	
+
   set :public, 'public'
 
-  get '/' do
-
-    erb :index
-  end
+	get '/' do
+		ActiveRecord::Base.establish_connection(
+	    :adapter => 'mysql2',
+  	  :host => 'localhost',
+    	:database => "lovinindy_development",
+			:username => 'root',
+    	:password => 'r@dh0st',
+    	:encoding => 'UTF8'
+    )
+ 		Tweet.get_tweets
+		erb :index
+	end
 
   get '/search' do 
     @results = twitter_search.hashtag("lovinindy").language("en").no_retweets.per_page(2).filter('links').fetch
