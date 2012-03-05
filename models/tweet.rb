@@ -1,9 +1,9 @@
 class Tweet
 	def get_tweets
-		Twitter.search("#indy")
 		embedly_api = Embedly::API.new :key => 'a0254700e14811e08c704040d3dc5c07', :user_agent => 'Mozilla/5.0 (compatible; mytestapp/1.0; info@supermatter.com)'
-    @data = Twitter::Search.new.hashtag("indy").language("en").no_retweets.per_page(20)
-    
+    #@data = Twitter::Search.new.hashtag("indy").language("en").no_retweets.per_page(20)
+    @data = Twitter.search('#indy')
+
     @data.each do |result|
     	url = URI.extract(result.text, ['http']).first
       unless url.nil?
